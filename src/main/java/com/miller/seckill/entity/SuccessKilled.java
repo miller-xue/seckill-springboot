@@ -21,4 +21,6 @@ public class SuccessKilled {
     private short state;
 
     private Date createTime;
+
+    private Seckill seckill;
 }

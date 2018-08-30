@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * Created by miller on 2018/8/29
+ * @author Miller
  */
 @Mapper
 public interface SuccessKilledMapper {
@@ -19,7 +20,7 @@ public interface SuccessKilledMapper {
 
     /**
      * 查询SuccessKilled携带秒杀产品实体
-     * @param seckillId
+     * @param seckillId 商品id
      * @return
      */
     SuccessKilled selectByIdWithSeckill(long seckillId);
