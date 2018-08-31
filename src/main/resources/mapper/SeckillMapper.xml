@@ -13,13 +13,13 @@
         and number > 0
     </update>
 
-    <select id="selectById" parameterType="long" resultType="Seckill">
+    <select id="selectById" parameterType="long" resultType="com.miller.seckill.entity.Seckill">
         select seckill_id, name, number,start_time,end_time,create_time
         from seckill
         where seckill_id = #{seckillId}
     </select>
 
-    <select id="selectAll" parameterType="map" resultType="Seckill">
+    <select id="selectAll" parameterType="map" resultType="com.miller.seckill.entity.Seckill">
         select seckill_id, name, number,start_time,end_time,create_time
         from seckill
         order by create_time desc

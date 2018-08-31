@@ -2,6 +2,7 @@ package com.miller.seckill.dao;
 
 import com.miller.seckill.entity.Seckill;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ public interface SeckillMapper {
      * @param killTime 执行减库存时间
      * @return
      */
-    int reduceNumber(long seckillId, Date killTime);
+    int reduceNumber(@Param("seckillId") long seckillId, @Param("killTime") Date killTime);
 
     /**
      * 根据id查询秒杀对象
@@ -31,9 +32,9 @@ public interface SeckillMapper {
 
     /**
      * 根据偏移量查询秒杀商品列表
-     * @param offet
+     * @param offset
      * @param limit
      * @return
      */
-    List<Seckill> selectAll(int offet, int limit);
+    List<Seckill> selectAll(@Param("offset") int offset, @Param("limit") int limit);
 }

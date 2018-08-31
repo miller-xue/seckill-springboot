@@ -2,6 +2,7 @@ package com.miller.seckill.dao;
 
 import com.miller.seckill.entity.SuccessKilled;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by miller on 2018/8/29
@@ -16,13 +17,13 @@ public interface SuccessKilledMapper {
      * @param userPhone
      * @return
      */
-    int insert(long seckillId, long userPhone);
+    int insert(@Param("seckillId") long seckillId,@Param("userPhone") long userPhone);
 
     /**
      * 查询SuccessKilled携带秒杀产品实体
      * @param seckillId 商品id
      * @return
      */
-    SuccessKilled selectByIdWithSeckill(long seckillId);
+    SuccessKilled selectByIdWithSeckill(@Param("seckillId") long seckillId, @Param("userPhone") long userPhone);
 
 }

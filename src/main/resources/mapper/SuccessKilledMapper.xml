@@ -4,13 +4,13 @@
 
     <insert id="insert" parameterType="map" >
         <!-- 主键冲突报错 -->
-        insert ignore into success_killed(seckill_id, phone)
-        values (#{seckillId},#{userPhone})
+        insert ignore into success_killed(seckill_id, user_phone,state)
+        values (#{seckillId},#{userPhone},0)
     </insert>
 
-    <select id="selectByIdWithSeckill" resultType="SuccessKilled">
+    <select id="selectByIdWithSeckill" resultType="com.miller.seckill.entity.SuccessKilled">
         select
-            sk.seckill_id.
+            sk.seckill_id,
             sk.user_phone,
             sk.create_time,
             sk.state,
@@ -23,5 +23,6 @@
         from success_killed sk
         inner join seckill s on sk.seckill_id = s.seckill_id
         where sk.seckill_id = #{seckillId}
+        and sk.user_phone = #{userPhone}
     </select>
 </mapper>
