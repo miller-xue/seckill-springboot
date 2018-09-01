@@ -34,7 +34,7 @@ public class SeckillMapperTest {
 
     @Test
     public void selectById() {
-        long id = 1000;
+        long id = 1000213;
         Seckill seckill = seckillMapper.selectById(id);
         System.out.println(seckill.toString());
     }

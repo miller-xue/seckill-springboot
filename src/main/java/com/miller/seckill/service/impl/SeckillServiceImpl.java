@@ -92,7 +92,7 @@ public class SeckillServiceImpl implements SeckillService {
                     throw new SeckillCloseException(SeckillResult.END);
                 } else {
                     SuccessKilled successKilled = successKilledMapper.selectByIdWithSeckill(seckillId, userPhone);
-                    return new SeckillExecution(seckillId, SeckillResult.SUCCESS.getCode(), SeckillResult.SUCCESS.getMsg(), successKilled);
+                    return new SeckillExecution(seckillId, SeckillResult.SUCCESS, successKilled);
                 }
 
             }

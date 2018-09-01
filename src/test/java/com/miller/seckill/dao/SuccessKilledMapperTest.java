@@ -32,7 +32,7 @@ public class SuccessKilledMapperTest {
     @Test
     public void selectByIdWithSeckill() {
         long id = 1000l;
-        SuccessKilled successKilled = mapper.selectByIdWithSeckill(id);
+        SuccessKilled successKilled = mapper.selectByIdWithSeckill(id, 13022989276l);
         System.out.println(successKilled.toString());
     }
 }

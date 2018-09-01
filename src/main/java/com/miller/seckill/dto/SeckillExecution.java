@@ -1,6 +1,7 @@
 package com.miller.seckill.dto;
 
 import com.miller.seckill.entity.SuccessKilled;
+import com.miller.seckill.enums.SeckillResult;
 import lombok.*;
 
 /**
@@ -9,10 +10,8 @@ import lombok.*;
  */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
 public class SeckillExecution {
 
     private long seckillId;
@@ -30,9 +29,16 @@ public class SeckillExecution {
     private SuccessKilled successKilled;
 
 
-    public SeckillExecution(long seckillId, int state, String stateInfo) {
+    public SeckillExecution(long seckillId, SeckillResult seckillResult) {
         this.seckillId = seckillId;
-        this.state = state;
-        this.stateInfo = stateInfo;
+        this.state = seckillResult.getCode();
+        this.stateInfo = seckillResult.getMsg();
+    }
+
+    public SeckillExecution(long seckillId, SeckillResult seckillResult, SuccessKilled successKilled) {
+        this.seckillId = seckillId;
+        this.state = seckillResult.getCode();
+        this.stateInfo = seckillResult.getMsg();
+        this.successKilled = successKilled;
     }
 }
