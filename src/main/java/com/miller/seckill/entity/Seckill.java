@@ -1,5 +1,7 @@
 package com.miller.seckill.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.miller.seckill.common.serializer.Date2LongSerializer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,11 +21,10 @@ public class Seckill {
     private String name;
 
     private int number;
-
-
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date startTime;
-
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date endTime;
-
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 }

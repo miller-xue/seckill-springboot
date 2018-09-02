@@ -51,7 +51,7 @@ public class SeckillController {
         }
         Seckill seckill = seckillService.getById(seckillId);
         if (seckill == null) {
-            return Result.error(SeckillResult.DATA_REWRITE);
+            return Result.error(SysResult.SERVER_ERROR);
         }
         return Result.success(seckill);
     }
@@ -67,11 +67,11 @@ public class SeckillController {
         return Result.success(exposer);
     }
 
-    @RequestMapping(value = "/{seckillId}/md5/execute", method = RequestMethod.POST
+    @RequestMapping(value = "/{seckillId}/{md5}/execute", method = RequestMethod.POST
             ,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Result execute(@PathVariable("seckillId") Long seckillId,
-                          @CookieValue(required = false) Long userPhone,
+                          @CookieValue(name = "killPhone",required = false) Long userPhone,
                           @PathVariable("md5") String md5) {
         // 是否登陆
         if (userPhone == null) {

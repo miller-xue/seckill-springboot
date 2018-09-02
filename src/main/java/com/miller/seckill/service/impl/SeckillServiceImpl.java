@@ -63,9 +63,9 @@ public class SeckillServiceImpl implements SeckillService {
         if (now < startTime || now > endTime) {
             return new Exposer(false, seckillId, now, startTime, endTime);
         }
+
         // 转换特定字符串的过程，不可逆
-        String md5 = getMd5(seckillId);
-        return new Exposer(true, md5, seckillId);
+        return new Exposer(true, getMd5(seckillId), seckillId);
     }
 
     private String getMd5(long seckillId) {
