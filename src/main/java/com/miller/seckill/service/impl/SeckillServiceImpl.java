@@ -2,6 +2,7 @@ package com.miller.seckill.service.impl;
 
 import com.miller.seckill.dao.SeckillMapper;
 import com.miller.seckill.dao.SuccessKilledMapper;
+import com.miller.seckill.dao.cache.RedisDao;
 import com.miller.seckill.dto.Exposer;
 import com.miller.seckill.dto.SeckillExecution;
 import com.miller.seckill.entity.Seckill;
@@ -37,6 +38,9 @@ public class SeckillServiceImpl implements SeckillService {
     @Resource
     private SuccessKilledMapper successKilledMapper;
 
+    @Resource
+    private RedisDao redisDao;
+
     private final String slat = "213idkjawoidjoi";
 
     @Override
@@ -46,13 +50,20 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public Seckill getById(long seckillId) {
-        return seckillMapper.selectById(seckillId);
+        Seckill seckill = redisDao.getSeckill(seckillId);
+        if (seckill == null) {
+            seckill = seckillMapper.selectById(seckillId);
+            if (seckill != null) {
+                redisDao.putSeckill(seckill);
+            }
+        }
+        return seckill;
     }
 
 
     @Override
     public Exposer exportSeckillUrl(long seckillId) {
-        Seckill seckill = seckillMapper.selectById(seckillId);
+        Seckill seckill = getById(seckillId);
         // 查不到秒杀记录
         if (seckill == null) {
             return new Exposer(false, seckillId);
@@ -74,7 +85,7 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
         if (StringUtils.isBlank(md5) || !md5.equals(getMd5(seckillId))) {
             throw new SeckillException(SeckillResult.DATA_REWRITE);

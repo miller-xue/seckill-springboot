@@ -43,7 +43,7 @@ public class SeckillServiceImplTest {
 
     @Test
     public void exportSeckillUrl() {
-        Exposer exposer = seckillService.exportSeckillUrl(1000);
+        Exposer exposer = seckillService.exportSeckillUrl(100012);
         System.out.println(exposer.toString()); // e7c839e9e902cfa303ea32d9bd8a3b06
     }
 

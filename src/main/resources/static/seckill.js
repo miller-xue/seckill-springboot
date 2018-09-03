@@ -15,18 +15,19 @@ var seckill = {
     },
     // 页面所有data
     data: {
-        seckillId: getQueryString("seckillId"),
+        seckillId: '',
         seckill: {},
         exposer: {}
     },
     methods: {
         // 初始化页面渲染方法
         init: function () {
-            $.get(seckill.URL.detail(),{},function (result) {
+            seckill.data.seckillId = getQueryString("seckillId");
+            $.get(seckill.URL.detail(), {}, function (result) {
                 if (result && result.code == 0) {
                     seckill.data.seckill = result.data;
                     seckill.methods.initPage();
-                }else {
+                } else {
                     layer.msg(result.msg);
                 }
             });
@@ -63,6 +64,7 @@ var seckill = {
         },
         /* 查询秒杀地址 */
         seckillUrl: function () {
+            // TODO 接口时间差计算
             $.post(seckill.URL.exposer(),{},function (result) {
                 if (result && result.code == 0) {
                     seckill.data.exposer = result.data;
