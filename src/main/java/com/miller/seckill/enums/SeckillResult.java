@@ -10,9 +10,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum  SeckillResult implements BaseResult {
-    SUCCESS(0, "秒杀成功"),
+    SUCCESS(1, "秒杀成功"),
 
-    END(1,"秒杀结束"),
+    END(0,"秒杀结束"),
 
     NOT_START(-4,"秒杀未开始"),
 

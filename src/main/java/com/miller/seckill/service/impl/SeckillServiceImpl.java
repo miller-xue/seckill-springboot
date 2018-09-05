@@ -7,6 +7,7 @@ import com.miller.seckill.dto.Exposer;
 import com.miller.seckill.dto.SeckillExecution;
 import com.miller.seckill.entity.Seckill;
 import com.miller.seckill.entity.SuccessKilled;
+import com.miller.seckill.enums.EnumUtil;
 import com.miller.seckill.enums.SeckillResult;
 import com.miller.seckill.enums.SysResult;
 import com.miller.seckill.exception.RepeatKillException;
@@ -14,6 +15,7 @@ import com.miller.seckill.exception.SeckillCloseException;
 import com.miller.seckill.exception.SeckillException;
 import com.miller.seckill.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,9 @@ import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by miller on 2018/8/31
@@ -118,6 +122,32 @@ public class SeckillServiceImpl implements SeckillService {
         catch (Exception e) {
             e.printStackTrace();
             throw new SeckillException(SysResult.SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public SeckillExecution executeSeckillByProcedure(long seckillId, long userPhone, String md5) {
+        if (StringUtils.isBlank(md5) || !md5.equals(getMd5(seckillId))) {
+            throw new SeckillException(SeckillResult.DATA_REWRITE);
+        }
+        Date killTime = new Date();
+        Map<String, Object> map = new HashMap<>();
+        map.put("seckillId", seckillId);
+        map.put("phone", userPhone);
+        map.put("killTime", killTime);
+        map.put("result", null);
+        try {
+            seckillMapper.killByProcedure(map);
+            Integer result = MapUtils.getInteger(map, "result", -2);
+            if (result == 1) {
+                SuccessKilled successKilled = successKilledMapper.selectByIdWithSeckill(seckillId, userPhone);
+                return new SeckillExecution(seckillId, SeckillResult.SUCCESS, successKilled);
+            }else {
+                return new SeckillExecution(seckillId, EnumUtil.getByCode(result, SeckillResult.class));
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return new SeckillExecution(seckillId, SeckillResult.INNER_ERROR);
         }
     }
 }

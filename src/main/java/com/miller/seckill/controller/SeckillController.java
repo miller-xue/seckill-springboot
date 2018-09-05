@@ -81,7 +81,7 @@ public class SeckillController {
         if (seckillId == null || StringUtils.isBlank(md5)) {
             return Result.error(SeckillResult.DATA_REWRITE);
         }
-        SeckillExecution execution = seckillService.executeSeckill(seckillId, userPhone, md5);
+        SeckillExecution execution = seckillService.executeSeckillByProcedure(seckillId, userPhone, md5);
         return Result.success(execution);
     }
 

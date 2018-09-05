@@ -57,6 +57,29 @@ public class SeckillServiceImplTest {
     }
 
     @Test
+    public void executeSeckillByProcedure() {
+        long id = 1004;
+        Exposer exposer = seckillService.exportSeckillUrl(id);
+        if (exposer.isExposed()) {
+            long phone = 18149011466l;
+            String md5 = exposer.getMd5();
+            try {
+                SeckillExecution seckillExecution = seckillService.executeSeckillByProcedure(id, phone, md5);
+                log.info("result = {}", seckillExecution);
+            } catch (RepeatKillException e1) {
+                log.error(e1.getMessage());
+            }catch (SeckillCloseException e2) {
+                log.error(e2.getMessage());
+            }
+        }else {
+            log.warn("秒杀未开启  exposer={}", exposer);
+        }
+    }
+
+
+
+
+    @Test
     public void seckillLogic() {
         long id = 100012l;
         Exposer exposer = seckillService.exportSeckillUrl(id);

@@ -65,6 +65,7 @@ var seckill = {
         /* 查询秒杀地址 */
         seckillUrl: function () {
             // TODO 接口时间差计算
+            var start = new Date().getTime();
             $.post(seckill.URL.exposer(),{},function (result) {
                 if (result && result.code == 0) {
                     seckill.data.exposer = result.data;
@@ -73,6 +74,8 @@ var seckill = {
                     layer.msg(result.msg);
                 }
             });
+            var end = new Date().getTime();
+            seckill.data.exposer.new += (end - start);
         },
         // 时间判断,计时交互
         countDown: function () {
