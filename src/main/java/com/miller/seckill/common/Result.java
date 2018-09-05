@@ -11,6 +11,9 @@ import lombok.Setter;
 /**
  * Created by miller on 2018/8/8
  * @author Miller
+ * TODO 感觉不完善。不知道从哪里来改
+ *
+ * + boolean result 判断成功失败，携带错误编码
  */
 @Getter
 @Setter
