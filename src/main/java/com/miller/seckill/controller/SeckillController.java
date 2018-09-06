@@ -19,32 +19,30 @@ import java.util.List;
  * Created by miller on 2018/9/1
  * @author Miller
  */
-@Controller
+@RestController
 @RequestMapping(value = "/seckill")
 public class SeckillController {
 
     @Resource
     private SeckillService seckillService;
 
-    @ResponseBody
-    @RequestMapping(value = "/time/now",method = RequestMethod.GET
-            ,produces = {"application/json;charset=UTF-8"})
+    
+    /**@RequestMapping(value = "/time/now",method = RequestMethod.GET
+            ,produces = {"application/json;charset=UTF-8"})*/
+    @GetMapping(value = "/time/now",produces = {"application/json;charset=UTF-8"})
     public Result now() {
         return Result.success(new Date());
     }
 
 
-    @ResponseBody
-    @RequestMapping(value = "/list",method = RequestMethod.GET
-            ,produces = {"application/json;charset=UTF-8"})
+    
+    @GetMapping(value = "/list" ,produces = {"application/json;charset=UTF-8"})
     public Result<List<Seckill>> list() {
         return Result.success(seckillService.getSeckillList());
     }
 
 
-    @RequestMapping(value = "/{seckillId}/detail", method = RequestMethod.GET
-            ,produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
+    @GetMapping(value = "/{seckillId}/detail" ,produces = {"application/json;charset=UTF-8"})
     public Result<Seckill> detail(@PathVariable("seckillId") Long seckillId) {
         if (seckillId == null) {
             return Result.error(SeckillResult.DATA_REWRITE);
@@ -56,9 +54,7 @@ public class SeckillController {
         return Result.success(seckill);
     }
 
-    @RequestMapping(value = "/{seckillId}/exposer", method = RequestMethod.POST
-            ,produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
+    @PostMapping(value = "/{seckillId}/exposer",produces = {"application/json;charset=UTF-8"})
     public Result exposer(@PathVariable("seckillId") Long seckillId) {
         if (seckillId == null) {
             return Result.error(SeckillResult.DATA_REWRITE);
@@ -67,9 +63,7 @@ public class SeckillController {
         return Result.success(exposer);
     }
 
-    @RequestMapping(value = "/{seckillId}/{md5}/execute", method = RequestMethod.POST
-            ,produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
+    @PostMapping(value = "/{seckillId}/{md5}/execute" ，produces = {"application/json;charset=UTF-8"})
     public Result execute(@PathVariable("seckillId") Long seckillId,
                           @CookieValue(name = "killPhone",required = false) Long userPhone,
                           @PathVariable("md5") String md5) {
